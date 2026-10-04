@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>AEROVUE — Drone Photography &amp; Video Platform</title>
+<meta content="A trend-forward drone photography and video platform for planning aerial missions, comparing quadcopters and managing visual production workflows." name="description"/>
+<link href="assets/favicon.svg" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{
+ --bg:#f3efe8;--paper:#fbfaf6;--ink:#15171a;--muted:#6f7378;--line:#d8d4cc;
+ --blue:#315cff;--orange:#ff6848;--lime:#c7f25b;--lav:#c8b8ff;--dark:#11151c;
+ --max:1180px;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;line-height:1.55;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.28;background-image:radial-gradient(#aaa 0.7px,transparent .7px);background-size:18px 18px;mask-image:linear-gradient(#000,transparent 75%)}
+a{text-decoration:none;color:inherit}img{display:block;width:100%;object-fit:cover}.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}
+.nav{position:fixed;z-index:100;top:16px;left:50%;transform:translateX(-50%);width:min(var(--max),calc(100% - 40px));padding:8px 10px 8px 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(251,250,246,.86);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(21,23,26,.08);border-radius:20px;box-shadow:0 16px 40px rgba(24,25,27,.08),0 2px 6px rgba(24,25,27,.04);box-sizing:border-box}
+.brand{display:inline-flex;align-items:center;gap:10px;font:800 14px/1 "Manrope",sans-serif;letter-spacing:.12em;color:var(--ink);text-decoration:none;user-select:none;flex-shrink:0}.brand svg{width:36px;height:36px;display:block;flex-shrink:0}
+.navlinks{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:3px;align-items:center;margin:0;padding:0;pointer-events:auto}
+.navlinks a{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 12px;border-radius:10px;color:#636870;font-size:13px;font-weight:600;line-height:1;text-decoration:none;transition:all .2s ease;white-space:nowrap}
+.navlinks a:hover{background:rgba(21,23,26,.06);color:var(--ink)}
+.navlinks a.active{background:var(--ink);color:#ffffff;font-weight:700;box-shadow:0 3px 10px rgba(21,23,26,.15)}
+.nav-right{display:inline-flex;align-items:center;gap:8px;flex-shrink:0}
+.navcta{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 16px;background:var(--ink);color:#fff;border-radius:12px;font:700 13px/1 "Manrope",sans-serif;letter-spacing:.02em;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(21,23,26,.16);transition:all .25s ease}.mobile-navcta{display:none}
+.navcta:hover{background:#252a32;color:#fff;transform:translateY(-1px);box-shadow:0 6px 20px rgba(21,23,26,.25)}
+.menu{display:none;align-items:center;justify-content:center;width:38px;height:38px;border:0;background:transparent;color:var(--ink);font-size:22px;border-radius:10px;cursor:pointer;padding:0;line-height:1;transition:background .2s ease}.menu:hover{background:rgba(21,23,26,.06)}
+
+.hero{min-height:830px;padding-top:120px;display:grid;grid-template-columns:1.02fr .98fr;gap:55px;align-items:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--orange);font:800 11px "Manrope";letter-spacing:.16em;text-transform:uppercase}.dot{width:7px;height:7px;background:var(--blue);border-radius:50%;box-shadow:0 0 0 6px #315cff18}
+h1,h2,h3{font-family:"Manrope";letter-spacing:-.055em;line-height:1.02;margin:0}h1{font-size:clamp(48px,6.8vw,90px);margin:18px 0;max-width:700px}.grad{color:var(--blue)}.hero .lead{max-width:600px;font-size:18px;color:#5f646a}.actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:27px}.btn{display:inline-flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:13px 18px;border-radius:12px;border:1px solid #15171a1a;font-size:12px;font-weight:800;transition:.3s}.btn:after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent,#fff8,transparent);transform:translateX(-120%);transition:.55s}.btn:hover:after{transform:translateX(120%)}.btn:hover{transform:translateY(-3px);box-shadow:0 13px 25px #2222}.primary{background:var(--orange);color:#fff;border-color:var(--orange)}.darkbtn{background:var(--ink);color:#fff}
+
+.hero-visual{height:590px;position:relative;perspective:1100px}.hero-image{position:absolute;inset:30px 5px 15px 25px;overflow:hidden;border-radius:34px;border:1px solid #fff8;box-shadow:28px 35px 80px #2b2b2b26;transform:rotateY(-7deg) rotateX(3deg)}.hero-image img{height:100%;filter:saturate(.9) contrast(1.03)}.hero-image:after{content:"";position:absolute;inset:0;background:linear-gradient(145deg,#15171a12,#15171a72)}.hud{position:absolute;z-index:4;padding:13px 15px;background:#fbfaf6df;backdrop-filter:blur(13px);border:1px solid #fff;border-radius:14px;box-shadow:0 16px 30px #2222;font-size:11px}.hud b{display:block;font:800 13px "Manrope"}.hud span{color:#70757b}.hud.a{top:100px;left:0}.hud.b{right:0;bottom:95px}.hud.c{left:38px;bottom:24px;background:var(--ink);color:#fff;border-color:#fff2}.hud.c span{color:#c4c8cc}.orbit{position:absolute;inset:0}.orbit i{position:absolute;left:50%;top:50%;width:94%;height:38%;border:1px solid #315cff55;border-radius:50%;transform:translate(-50%,-50%) rotate(18deg);animation:orb 9s linear infinite}.orbit i:nth-child(2){width:65%;height:60%;border-color:#ff684855;transform:translate(-50%,-50%) rotate(-37deg);animation-duration:12s}.orbit i:nth-child(3){width:46%;height:78%;border-color:#11151c38;transform:translate(-50%,-50%) rotate(61deg);animation-duration:15s}@keyframes orb{to{transform:translate(-50%,-50%) rotate(378deg)}}
+
+.marquee{border-block:1px solid var(--line);background:rgba(255,255,255,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:hidden;padding:16px 0;width:100%;position:relative;display:flex;user-select:none}.track{display:flex;width:max-content;will-change:transform}.track-group{display:flex;align-items:center;gap:40px;padding-right:40px;flex-shrink:0}.track-group span{white-space:nowrap;color:#6b7076;font:800 11px "Manrope";letter-spacing:.14em}.track-group .dot{width:5px;height:5px;border-radius:50%;background:var(--orange);display:inline-block;opacity:.8;box-shadow:none;flex:none}
+.section{padding:100px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:38px}.section-head h2{font-size:clamp(34px,5vw,58px);max-width:760px}.section-head p{max-width:420px;color:var(--muted);margin:0}.kicker{color:var(--blue);font:800 10px "Manrope";letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.grid{display:grid;gap:16px}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{position:relative;padding:25px;border:1px solid #15171a14;border-radius:23px;background:rgba(255,255,255,.55);overflow:hidden;transition:.35s;box-shadow:0 12px 35px #3331;display:flex;flex-direction:column;text-align:center;align-items:center}.card:hover{transform:translateY(-7px);box-shadow:0 24px 50px #3332;border-color:#315cff44}.card:before{content:"";position:absolute;right:-35px;top:-45px;width:130px;height:130px;border-radius:50%;background:var(--lav);filter:blur(35px);opacity:.28}.icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--ink);color:#fff;font:800 11px "Manrope";margin:0 auto 20px}.card h3{font-size:22px;margin-bottom:9px;text-align:center;width:100%}.card p{color:#70747a;margin:0;flex:1 0 auto;text-align:center;width:100%}.tag{display:block;margin-top:auto;padding-top:18px;color:var(--orange);font:800 10px "Manrope";letter-spacing:.1em;text-transform:uppercase;text-align:center}
+.photo{position:relative;min-height:510px;border-radius:30px;overflow:hidden;border:1px solid #fff;background:#15171a;box-shadow:0 22px 55px #2222;display:flex;align-items:center;padding:48px 50px}.photo img{height:100%;width:100%;position:absolute;inset:0;filter:brightness(.7) saturate(.88)}.photo:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0f131add,#0f131a28 72%)}.photo-copy{position:relative;z-index:2;max-width:590px;color:#fff}.photo-copy h3{font-size:42px;margin-bottom:10px}.photo-copy p{color:#d5d8dc}
+.gallery{display:grid;grid-template-columns:1.25fr .75fr;grid-template-rows:250px 250px;gap:15px}.gallery figure{position:relative;margin:0;border-radius:22px;overflow:hidden;border:1px solid #15171a14}.gallery figure:first-child{grid-row:span 2}.gallery img{height:100%;transition:.65s}.gallery figure:hover img{transform:scale(1.07)}.gallery figcaption{position:absolute;left:14px;bottom:13px;padding:7px 9px;border-radius:8px;background:#fbfaf6e8;font:800 9px "Manrope";letter-spacing:.1em}
+
+.radarbox{height:520px;border-radius:30px;overflow:hidden;background:var(--dark);position:relative;border:1px solid #fff1;display:grid;place-items:center}.radarbox:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:58px 58px}.radar{width:330px;height:330px;border:1px solid #5de6ff55;border-radius:50%;position:relative;animation:spin 10s linear infinite}.radar:before,.radar:after{content:"";position:absolute;inset:38px;border:1px dashed #c8b8ff55;border-radius:50%}.radar:after{inset:90px;border-color:#c7f25b55}.sweep{position:absolute;left:50%;top:50%;height:2px;width:150px;transform-origin:left;background:linear-gradient(90deg,#c7f25b,transparent);box-shadow:0 0 15px #c7f25b}.ping{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--orange);box-shadow:0 0 16px var(--orange);animation:pulse 2.5s ease-in-out infinite}.p1{left:24%;top:38%}.p2{right:22%;top:56%;animation-delay:.8s}.p3{left:55%;bottom:17%;animation-delay:1.4s}.radar-label{position:absolute;z-index:2;left:22px;top:20px;padding:8px 10px;border:1px solid #fff2;border-radius:9px;color:#c7cbd0;font:800 9px "Manrope";letter-spacing:.12em}.radar-center{position:absolute;z-index:3;text-align:center;color:#fff}.radar-center strong{display:block;font:800 30px "Manrope"}.radar-center small{color:var(--lime);font:800 9px "Manrope";letter-spacing:.13em}@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{0%,100%{transform:scale(.7);opacity:.45}50%{transform:scale(1.5);opacity:1}}
+
+.drone-lab{height:560px;border-radius:30px;border:1px solid rgba(255,255,255,.4);background:#11151c;position:relative;overflow:hidden;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center}.drone-lab img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.95) contrast(1.05);transition:transform .8s cubic-bezier(.2,.75,.2,1)}.drone-lab:hover img{transform:scale(1.04)}.drone-lab:before{content:"";position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 45%,rgba(17,21,28,.45) 100%),linear-gradient(180deg,transparent 65%,rgba(17,21,28,.7) 100%);pointer-events:none}.drone-lab-overlay{position:absolute;inset:0;z-index:3;pointer-events:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;padding:26px 30px}.drone-hud-chip{padding:10px 14px;background:rgba(21,23,26,.72);border:1px solid rgba(255,255,255,.18);border-radius:12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;width:fit-content;box-shadow:0 10px 25px rgba(0,0,0,.25);transition:transform .3s ease}.drone-hud-chip span{display:block;font:800 8px "Manrope";letter-spacing:.14em;color:var(--lime);margin-bottom:2px}.drone-hud-chip b{display:block;font:800 11px "Manrope";letter-spacing:.04em}.drone-hud-chip.tr{justify-self:end}.drone-hud-chip.bl{align-self:end}.drone-hud-chip.br{justify-self:end;align-self:end}
+.control-room{height:540px;border-radius:30px;border:1px solid rgba(255,255,255,.4);background:#11151c;position:relative;overflow:hidden;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center}.control-room img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.95) contrast(1.05);transition:transform .8s cubic-bezier(.2,.75,.2,1)}.control-room:hover img{transform:scale(1.04)}.control-room:before{content:"";position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 45%,rgba(17,21,28,.45) 100%),linear-gradient(180deg,transparent 65%,rgba(17,21,28,.7) 100%);pointer-events:none}.control-room-badge{position:absolute;z-index:3;top:20px;left:22px;padding:9px 13px;border-radius:10px;background:rgba(21,23,26,.8);border:1px solid rgba(255,255,255,.18);color:#fff;font:800 9px "Manrope";letter-spacing:.12em;backdrop-filter:blur(8px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.compare{display:grid;grid-template-columns:1fr 1fr;border:1px solid #15171a14;border-radius:24px;overflow:hidden;background:#fff8}.compare>div{padding:27px}.compare>div:first-child{border-right:1px solid var(--line)}.compare h3{font-size:28px}.bar{margin-top:17px}.bar label{display:flex;justify-content:space-between;font-size:12px;color:#6d7278}.bar em{display:block;height:7px;background:#e1ddd5;border-radius:99px;margin-top:7px;overflow:hidden}.bar i{display:block;height:100%;width:var(--w);background:linear-gradient(90deg,var(--blue),var(--orange));animation:load 1.5s both}@keyframes load{from{width:0}}
+.cards-img{padding:0}.cards-img img{height:220px}.cards-img .inner{padding:22px}.cards-img .tag{margin-top:0}.price{font:800 25px "Manrope";margin:10px 0}.stars{font-size:12px;letter-spacing:2px;color:#e79a24}
+.route{height:450px;border-radius:29px;overflow:hidden;position:relative;border:1px solid #fff;background:#15171a}.route img{height:100%;filter:brightness(.58) saturate(.7)}.route svg{position:absolute;inset:0;width:100%;height:100%;z-index:2}.path{fill:none;stroke:var(--lime);stroke-width:3;stroke-dasharray:12 12;filter:drop-shadow(0 0 7px #c7f25b);animation:dash 4s linear infinite}@keyframes dash{to{stroke-dashoffset:-120}}.route-label{position:absolute;z-index:3;top:18px;left:18px;padding:9px 11px;border-radius:9px;background:#15171ad9;color:#fff;font:800 9px "Manrope";letter-spacing:.12em}
+.steps{counter-reset:step;position:relative}.step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:26px 20px;border:1px solid rgba(21,23,26,.09);border-radius:22px;background:rgba(255,255,255,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.04);transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease;position:relative;z-index:1;height:100%}.step:hover{transform:translateY(-6px);box-shadow:0 18px 45px rgba(0,0,0,.08);border-color:rgba(49,92,255,.3)}.step:before{counter-increment:step;content:"0" counter(step);width:44px;height:44px;flex:none;display:grid;place-items:center;border-radius:13px;background:var(--blue);color:#fff;font:800 12px "Manrope";box-shadow:0 8px 20px rgba(49,92,255,.3);margin-bottom:16px}.step h3{font-size:20px;font-weight:800;margin-bottom:8px;text-align:center;width:100%;color:var(--ink)}.step p{margin:0;color:var(--muted);font-size:13px;line-height:1.55;text-align:center;width:100%}
+.dark-panel{background:var(--dark);color:#fff;border-radius:30px;padding:55px;position:relative;overflow:hidden}.dark-panel:before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;right:-130px;top:-170px;background:var(--blue);filter:blur(90px);opacity:.25}.dark-panel h2{font-size:clamp(35px,5vw,62px);max-width:760px}.dark-panel p{color:#b8bec6;max-width:600px}.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}.pill{padding:8px 10px;border:1px solid #fff2;border-radius:99px;color:#c9cdd2;font:700 9px "Manrope";letter-spacing:.1em}
+.contact-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:17px}.contact-box{padding:25px;border:1px solid #15171a14;border-radius:24px;background:#fff9}.contact-item{display:flex;gap:13px;padding:14px 0;border-bottom:1px solid var(--line)}.contact-item b{display:block;font:800 12px "Manrope"}.contact-item a,.contact-item span{color:var(--muted);font-size:13px}.socials{display:flex;gap:8px;margin-top:20px}.socials a{width:40px;height:40px;border:1px solid var(--line);border-radius:11px;display:grid;place-items:center;font:800 12px "Manrope";transition:.25s}.socials a:hover{background:var(--ink);color:#fff;transform:translateY(-3px)}.map{padding:0;overflow:hidden;min-height:340px;position:relative}.map iframe{width:100%;height:100%;min-height:340px;border:0;filter:saturate(.7) brightness(.9)}.map-badge{position:absolute;z-index:2;left:14px;top:14px;padding:8px 10px;background:#fbfaf6e8;border-radius:8px;font:800 9px "Manrope";letter-spacing:.1em}
+.footer{padding:75px 0 32px;background:#101318;color:#fff;border-top:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}.footer:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:900px;height:160px;background:radial-gradient(ellipse at top,rgba(49,92,255,.14),transparent 70%);pointer-events:none}.footergrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:45px;position:relative;z-index:1}.foot-brand-col{display:flex;flex-direction:column;align-items:flex-start}.foot-brand-col .brand{color:#fff;font:800 16px/1 "Manrope",sans-serif;letter-spacing:.14em;margin-bottom:14px}.foot-desc{color:#8e95a0;font-size:13px;line-height:1.65;max-width:330px;margin:0 0 18px 0}.foot-status{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#b0b7c3;font:800 9px "Manrope";letter-spacing:.1em}.pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px var(--lime);animation:pulseDot 2s infinite ease-in-out}@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}.foot-col{display:flex;flex-direction:column}.foot-title{font:800 11px/1 "Manrope",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin:0 0 20px 0}.foot-nav{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}.foot-nav li{margin:0;padding:0}.foot-nav a{color:#8e95a0;font-size:13px;text-decoration:none;transition:all .25s ease;display:inline-flex;align-items:center}.foot-nav a:hover{color:#fff;transform:translateX(3px)}.foot-contact span{color:#8e95a0;font-size:13px}.foot-socials{display:flex;gap:8px;margin-top:18px}.foot-socials a{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#b0b7c3;display:grid;place-items:center;font:800 11px "Manrope";transition:all .25s ease}.foot-socials a:hover{background:var(--blue);color:#fff;border-color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 16px rgba(49,92,255,.35)}.footbottom{display:flex;justify-content:space-between;align-items:center;margin-top:45px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);color:#727985;font-size:11px;position:relative;z-index:1}.footbottom-left{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.foot-legal{display:flex;align-items:center;gap:10px}.foot-legal a{color:#727985;transition:color .2s ease}.foot-legal a:hover{color:#c9cdd4}.footbottom-right{color:#727985;font-weight:500}
+.reveal{opacity:0;transform:translateY(24px);transition:.8s cubic-bezier(.2,.8,.2,1)}.reveal.in{opacity:1;transform:none}
+@media(max-width:900px){.navlinks{display:none;position:absolute;left:0;right:0;top:calc(100% + 10px);transform:none;background:rgba(251,250,246,.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(20,23,26,.1);padding:14px;border-radius:18px;flex-direction:column;gap:6px;box-shadow:0 20px 50px rgba(20,23,26,.15)}.nav.open .navlinks{display:flex}.navlinks a{width:100%;height:40px;justify-content:center;padding:0 14px;text-align:center}.desktop-navcta{display:none!important}.mobile-navcta{display:inline-flex!important;width:100%!important;height:42px!important;justify-content:center!important;align-items:center;background:var(--ink)!important;color:#fff!important;border-radius:12px;font:700 13px/1 "Manrope",sans-serif;margin-top:6px;box-shadow:0 4px 14px rgba(21,23,26,.16);transition:all .25s ease}.mobile-navcta:hover{background:#252a32!important;color:#fff!important;transform:translateY(-1px)}.menu{display:inline-flex}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+
+/* ===== AEROVUE TOTAL REFINEMENT ===== */
+:root{--shadow:0 22px 55px rgba(24,25,27,.10)}
+body{background:linear-gradient(180deg,#f5f1e9 0%,#efeae1 52%,#f6f2eb 100%)}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E")}
+.nav{box-shadow:0 18px 60px rgba(26,27,28,.14)}
+.hero{min-height:780px;padding-bottom:55px}.hero h1{font-weight:800}.hero .lead{line-height:1.65}
+.hero-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;max-width:620px;margin-top:27px}
+.metric{padding:12px 13px;border:1px solid #15171a12;background:#fff8;border-radius:13px;box-shadow:0 9px 25px #3331}
+.metric b{display:block;font:800 17px "Manrope";letter-spacing:-.03em}.metric span{display:block;margin-top:2px;color:#85898e;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+.hero-visual:after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:var(--orange);filter:blur(70px);opacity:.13;right:-20px;top:50px;animation:glowFloat 5s ease-in-out infinite}
+@keyframes glowFloat{50%{transform:translate(-20px,25px);opacity:.22}}
+.section{position:relative;padding:92px 0}.section+.section{padding-top:76px}
+.section-index{position:absolute;right:0;top:22px;width:32px;height:32px;border:1px solid #15171a18;border-radius:50%;display:grid;place-items:center;color:#7b7f84;font:800 9px "Manrope";background:#fff7;z-index:5}
+.section:nth-of-type(odd) .section-index{background:var(--ink);color:#fff;border-color:transparent}
+.section-head{margin-bottom:30px}.section-head h2{font-weight:800}
+.card{min-height:235px;transform:translate(var(--mx,0),var(--my,0));will-change:transform}.card:hover{transform:translate(var(--mx,0),calc(var(--my,0) - 7px))}
+.card .icon{transition:.35s}.card:hover .icon{transform:rotate(-6deg) scale(1.06);background:var(--orange)}
+.card:after{content:"";position:absolute;left:-60px;bottom:-65px;width:150px;height:150px;border-radius:50%;background:var(--blue);filter:blur(60px);opacity:0;transition:.4s}.card:hover:after{opacity:.12}
+.photo,.dark-panel,.radarbox,.drone-lab,.control-room,.route{transform:translate(var(--mx,0),var(--my,0));transition:transform .2s ease,box-shadow .35s}
+.photo:hover,.dark-panel:hover{box-shadow:0 30px 80px rgba(25,25,25,.16)}
+.photo-copy{max-width:590px}.photo-copy h3{font-weight:800}
+.capture-stats{display:flex;gap:7px;flex-wrap:wrap;margin-top:22px}.capture-stats span{display:flex;gap:7px;align-items:center;padding:8px 10px;border:1px solid #fff2;border-radius:99px;background:#fff1;font:800 9px "Manrope";letter-spacing:.07em}.capture-stats b{color:var(--lime)}.capture-stats small{color:#fff}
+.gallery figure:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,#1119);pointer-events:none}
+.gallery figure{box-shadow:var(--shadow)}.gallery figcaption{z-index:2}
+.radarbox{box-shadow:0 22px 65px rgba(17,21,28,.18)}
+.radar{box-shadow:0 0 80px #315cff22}
+.radarbox:after{content:"";position:absolute;width:70%;height:1px;top:18%;background:linear-gradient(90deg,transparent,#c7f25b55,transparent);animation:scanLine 4s ease-in-out infinite}@keyframes scanLine{50%{top:80%}}
+.drone-lab{box-shadow:var(--shadow)}.drone-lab:after{content:"DRONE / CAMERA / FLIGHT";position:absolute;right:20px;top:18px;color:#767a80;font:800 9px "Manrope";letter-spacing:.12em}
+.compare{box-shadow:var(--shadow)}.compare-pill{display:inline-block;margin:10px 0 3px;padding:6px 9px;border-radius:99px;background:#15171a;color:#fff;font:800 8px "Manrope";letter-spacing:.1em}
+.compare>div:nth-child(2) .compare-pill{background:var(--blue)}
+.bar i{background:linear-gradient(90deg,var(--blue),var(--orange),var(--lime))}
+.workflow-visual{position:relative;height:380px;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.4);background:#11151c;box-shadow:var(--shadow);margin-bottom:24px;display:flex;align-items:flex-end}
+.workflow-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.92) contrast(1.05);transition:transform .8s cubic-bezier(.2,.75,.2,1)}
+.workflow-visual:hover img{transform:scale(1.03)}
+.workflow-visual:before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent 40%,rgba(17,21,28,.75) 100%);pointer-events:none}
+.workflow-overlay{position:relative;z-index:3;display:flex;gap:10px;padding:22px 24px;width:100%;align-items:center}
+.workflow-overlay span{padding:8px 14px;border-radius:10px;background:rgba(21,23,26,.8);border:1px solid rgba(255,255,255,.2);color:#fff;font:800 10px/1 "Manrope",sans-serif;letter-spacing:.12em;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 8px 20px rgba(0,0,0,.3);display:inline-flex;align-items:center;gap:7px}
+.workflow-overlay span:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px var(--lime);display:inline-block}
+.workflow-line{position:absolute;left:40px;right:40px;top:48px;height:2px;background:linear-gradient(90deg,var(--blue),var(--orange),var(--lime));opacity:.35;z-index:0;pointer-events:none}
+.dark-panel{min-height:330px}.dark-panel:after{content:"";position:absolute;inset:auto -10% -60% 20%;height:220px;background:linear-gradient(90deg,#315cff22,#ff684822,#c7f25b18);filter:blur(45px)}
+.media-stack{position:absolute;right:55px;bottom:45px;width:250px;display:grid;gap:8px;transform:rotate(-5deg)}.media-chip{height:48px;border:1px solid #fff2;background:rgba(255,255,255,.08);border-radius:12px;padding:14px 15px;color:#fff;font:800 9px "Manrope";letter-spacing:.12em;box-shadow:0 15px 25px #0005;backdrop-filter:blur(8px)}.media-chip:nth-child(2){margin-left:25px;background:#315cff35}.media-chip:nth-child(3){margin-left:50px;background:#ff684835}
+.check-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto;padding-top:18px;justify-content:center}.check-row span{font:800 8px "Manrope";letter-spacing:.07em;color:#71767c;padding:6px 8px;border:1px solid #15171a10;border-radius:99px;background:#fff8}.check-row span:first-child{color:#315cff}
+.faq{background:rgba(255,255,255,.65);border:1px solid rgba(21,23,26,.10);border-radius:22px;padding:6px 28px;box-shadow:var(--shadow);text-align:left}
+.faq details{border-bottom:1px solid var(--line);padding:0}
+.faq details:last-child{border-bottom:none}
+.faq summary{list-style:none;display:flex;justify-content:space-between;align-items:center;text-align:left;cursor:pointer;font:700 17px/1.4 "Manrope",sans-serif;color:var(--ink);padding:20px 0;user-select:none;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::marker{display:none}
+.faq summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg);transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .25s ease;flex-shrink:0;margin-right:4px}
+.faq details[open] summary::after{transform:rotate(-135deg);border-color:var(--blue)}
+.faq p{color:var(--muted);font-size:14px;line-height:1.65;margin:0 0 20px 0;text-align:left;padding-right:16px;max-width:820px}
+.contact-grid-3{grid-template-columns:.8fr 1fr 1.2fr}.contact-form h3{font-size:27px}.contact-form>p{color:var(--muted);font-size:13px;margin-top:7px}.contact-form form{display:grid;gap:9px;margin-top:18px}.contact-form input,.contact-form textarea{width:100%;border:1px solid #15171a12;border-radius:12px;padding:12px 13px;background:#fff;color:var(--ink);font:500 12px "DM Sans";outline:none}.contact-form input:focus,.contact-form textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px #315cff10}.contact-form textarea{resize:vertical}.contact-form button{border:0;cursor:pointer}
+.map{box-shadow:var(--shadow)}
+.scroll-progress{position:fixed;z-index:100;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--orange),var(--lime));box-shadow:0 0 12px #315cff66}
+/* MISSION CARDS & MEDIA REFINEMENT */
+.brand{gap:10px}
+.brand-mark{width:38px!important;height:38px!important;flex:none;filter:drop-shadow(0 3px 8px rgba(0,0,0,0.25));transition:transform .3s ease,filter .3s ease}
+.brand:hover .brand-mark{transform:translateY(-1px) scale(1.05);filter:drop-shadow(0 5px 14px rgba(49,92,255,0.35))}
+.hero h1{font-size:clamp(58px,7.2vw,98px);line-height:1.02;letter-spacing:-.065em;max-width:780px}
+
+#mission .card{padding:0 0 24px 0;min-height:380px;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden;position:relative}
+.card-media{width:100%;height:180px;position:relative;overflow:hidden;background:#15171a;border-radius:22px 22px 0 0;flex-shrink:0}
+.card-media img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.88) contrast(1.03);transition:transform .75s cubic-bezier(.2,.75,.2,1)}
+.card:hover .card-media img{transform:scale(1.08)}
+#mission .card .icon{margin:-22px auto 14px;position:relative;z-index:5;box-shadow:0 8px 20px rgba(0,0,0,0.3);border:2px solid #fff;flex-shrink:0}
+#mission .card h3{font-size:21px;line-height:1.25;margin:0 20px 8px;text-align:center;width:auto;position:relative;z-index:2}
+#mission .card p{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0 20px 14px;text-align:center;width:auto;position:relative;z-index:2;flex:1 0 auto}
+#mission .card .tag{display:inline-flex;align-items:center;justify-content:center;margin-top:auto;padding:8px 20px 0;color:var(--orange);font:800 10px "Manrope";letter-spacing:.1em;text-transform:uppercase;text-align:center;position:relative;z-index:2;transition:transform .2s ease,color .2s ease}
+#mission .card .tag:hover{transform:translateY(-1px);color:var(--ink)}
+
+.media-orbit{position:absolute;z-index:2;width:150px;height:52px;border:1px solid #fff9;border-radius:50%;right:-25px;top:50%;transform:rotate(-24deg);animation:mediaOrbit 5s linear infinite;pointer-events:none}
+.media-orbit:after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 15px var(--lime);left:14px;top:20px}
+@keyframes mediaOrbit{to{transform:rotate(336deg)}}
+#mission .card:nth-child(2) .media-orbit{border-color:#315cff88;animation-duration:6s}
+#mission .card:nth-child(3) .media-orbit{border-color:#ff684888;animation-duration:7s}
+
+@media(max-width:1050px){.media-stack{right:28px}.contact-grid-3{grid-template-columns:1fr 1fr}.contact-grid-3 .map{grid-column:1/-1}}
+
+/* TABLET & MOBILE VIEW: CENTER ALIGNED TEXT, HEADINGS, AND BUTTONS */
+@media(max-width:900px){
+ .hero{grid-template-columns:1fr;min-height:auto;padding-top:125px;padding-bottom:50px;text-align:center}
+ .hero > div:first-child{display:flex;flex-direction:column;align-items:center;text-align:center}
+ .eyebrow{justify-content:center;margin:0 auto}
+ .hero h1{white-space:normal!important;font-size:clamp(52px,9vw,78px)!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important}
+ .hero .lead{text-align:center;margin-left:auto;margin-right:auto}
+ .actions{justify-content:center;width:100%}
+ .hero-visual{height:480px}
+ .hero-metrics{grid-template-columns:repeat(2,1fr);margin:27px auto 0;justify-content:center;width:100%}
+ .metric{text-align:center}
+ .metric b,.metric span{text-align:center}
+ 
+ .section-head{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin-bottom:32px}
+ .section-head > div{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%}
+ .section-head h2{text-align:center;margin-left:auto;margin-right:auto;max-width:100%}
+ .section-head p{text-align:center;margin:14px auto 0;max-width:540px}
+ .kicker{text-align:center;margin-left:auto;margin-right:auto;display:block}
+ .section-index{right:5px}
+ 
+ .g3,.g4{grid-template-columns:1fr 1fr}
+ .g3 > :last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:100%;max-width:calc((100% - 16px) / 2)}
+ .card{text-align:center;align-items:center}
+ .card h3,.card p{text-align:center;width:100%}
+ .card .tag{text-align:center;justify-content:center;width:100%;display:flex}
+ .cards-img .inner{text-align:center;display:flex;flex-direction:column;align-items:center;width:100%}
+ .price,.stars{text-align:center;width:100%}
+ .check-row{justify-content:center;width:100%}
+ 
+ .photo{justify-content:center;text-align:center}
+ .photo-copy{margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;max-width:100%}
+ .photo-copy h3,.photo-copy p,.photo-copy .kicker{text-align:center}
+ .capture-stats{justify-content:center;width:100%}
+ 
+ .compare{text-align:center}
+ .compare > div{text-align:center;display:flex;flex-direction:column;align-items:center}
+ .compare h3{text-align:center;width:100%}
+ .compare-pill{margin:10px auto 3px;display:inline-block}
+ .bar{width:100%}
+ 
+ .workflow-visual{height:280px;border-radius:24px;margin-bottom:20px}
+ .workflow-overlay{justify-content:center;padding:16px 14px;gap:8px;flex-wrap:wrap}
+ .workflow-overlay span{padding:7px 11px;font-size:9px}
+ .workflow-line{display:none}
+ .steps{text-align:center;width:100%}
+ .step{align-items:center;text-align:center;height:auto}
+ .step h3,.step p{text-align:center;width:100%}
+ 
+ .dark-panel{min-height:0;text-align:center;display:flex;flex-direction:column;align-items:center}
+ .dark-panel h2,.dark-panel p,.dark-panel .kicker{text-align:center;margin-left:auto;margin-right:auto}
+ .pillrow{justify-content:center;width:100%}
+ .media-stack{position:relative;right:auto;bottom:auto;margin:25px auto 0;width:280px;max-width:100%}
+ 
+ .faq{text-align:left;padding:4px 22px}
+ .faq details{text-align:left}
+ .faq summary{text-align:left;font-size:15.5px;padding:16px 0;list-style:none;display:flex;justify-content:space-between;align-items:center}
+ .faq summary::-webkit-details-marker{display:none}
+ .faq summary::marker{display:none}
+ .faq p{text-align:left;font-size:13.5px;line-height:1.6;margin:0 0 16px 0;padding-right:6px}
+ 
+ .contact-grid{grid-template-columns:1fr}
+ .contact-grid-3{grid-template-columns:1fr}
+ .contact-grid-3 .map{grid-column:auto}
+ .contact-box{text-align:center;display:flex;flex-direction:column;align-items:center}
+ .contact-item{text-align:center;flex-direction:column;align-items:center;justify-content:center;width:100%}
+ .contact-item b,.contact-item a,.contact-item span{text-align:center;display:block}
+ .socials{justify-content:center;width:100%}
+ .contact-form{text-align:center;align-items:center}
+ .contact-form h3,.contact-form > p{text-align:center;margin-left:auto;margin-right:auto}
+ .contact-form form{width:100%;display:flex;flex-direction:column;align-items:center}
+ .contact-form input,.contact-form textarea{text-align:center;width:100%}
+ .contact-form input::placeholder,.contact-form textarea::placeholder{text-align:center}
+ .contact-form button{margin:6px auto 0;display:inline-flex;justify-content:center;width:100%;max-width:280px}
+ 
+ .footer{text-align:center}
+ .footergrid{grid-template-columns:1fr 1fr;text-align:center}
+ .foot-brand-col{align-items:center;text-align:center}
+ .foot-brand-col .brand{justify-content:center;margin:0 auto 14px}
+ .foot-desc{text-align:center;margin-left:auto;margin-right:auto}
+ .foot-status{margin:0 auto;justify-content:center}
+ .foot-col{align-items:center;text-align:center}
+ .foot-title{text-align:center;width:100%}
+ .foot-nav{align-items:center;text-align:center;width:100%}
+ .foot-nav a{justify-content:center;text-align:center}
+ .foot-contact span{text-align:center}
+ .foot-socials{justify-content:center;width:100%}
+ .footbottom{text-align:center;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+ .footbottom-left{justify-content:center;text-align:center;width:100%;flex-direction:column;gap:8px}
+ .foot-legal{justify-content:center;width:100%}
+ .footbottom-right{text-align:center;width:100%}
+}
+
+@media(max-width:620px){
+ .wrap{width:calc(100% - 26px)}
+ .nav{width:calc(100% - 26px);top:12px;padding:7px 8px 7px 12px}
+ .hero{padding-top:110px}
+ .hero h1{font-size:49px!important;line-height:.97!important;text-align:center!important}
+ .hero-visual{height:390px}
+ .hero-image{inset:20px 0 8px 8px}
+ .hero-metrics{grid-template-columns:1fr 1fr}
+ .metric{padding:10px}
+ .photo{padding:30px 22px;min-height:460px}
+ .photo-copy h3{font-size:35px}
+ .hud.a{top:55px}
+ .hud.b{bottom:50px}
+ .section{padding:72px 0}
+ .section-index{top:18px}
+ .section-head{padding-right:0}
+ .g3,.g4,.compare{grid-template-columns:1fr}
+ .g3 > :last-child:nth-child(odd){grid-column:auto;justify-self:stretch;max-width:100%}
+ .compare>div:first-child{border-right:0;border-bottom:1px solid var(--line)}
+ .gallery{grid-template-columns:1fr;grid-template-rows:260px 200px 200px}
+ .gallery figure:first-child{grid-row:auto}
+ .radarbox,.drone-lab,.control-room{height:410px}
+ .dark-panel{padding:32px}
+ #mission .card{min-height:0;padding:0 0 22px 0}
+ .card-media{height:165px}
+ #mission .card .icon{margin:-20px auto 14px}
+ #mission .card h3{margin:0 16px 8px;font-size:20px;line-height:1.25}
+ #mission .card p{margin:0 16px 14px;font-size:13px;line-height:1.55}
+ .workflow-visual{height:210px;border-radius:18px;margin-bottom:16px}
+ .workflow-overlay{padding:12px 10px;gap:6px}
+ .workflow-overlay span{padding:6px 9px;font-size:8px;gap:5px}
+ .media-stack{width:100%}
+ .faq{padding:2px 18px}
+ .faq summary{font-size:14.5px;padding:15px 0}
+ .footer{padding:55px 0 30px}
+ .footergrid{grid-template-columns:1fr;gap:30px}
+ .footbottom{flex-direction:column;align-items:center;gap:12px}
+}
+
+/* ===== SCROLL UP / BACK-TO-TOP BUTTON ===== */
+.scroll-top-btn{position:fixed;z-index:95;right:28px;bottom:28px;width:48px;height:48px;border-radius:50%;background:rgba(21,23,26,.84);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.16);color:#fff;box-shadow:0 12px 32px rgba(17,21,28,.28),0 2px 8px rgba(0,0,0,.15);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;opacity:0;visibility:hidden;transform:translateY(18px) scale(.86);transition:opacity .35s cubic-bezier(.2,.8,.2,1),transform .35s cubic-bezier(.2,.8,.2,1),visibility .35s,background .25s ease,border-color .25s ease,box-shadow .25s ease;pointer-events:none;user-select:none;outline:none}
+.scroll-top-btn.visible{opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto}
+.scroll-top-btn:hover{background:var(--ink);transform:translateY(-4px) scale(1.06);border-color:rgba(49,92,255,.6);box-shadow:0 16px 40px rgba(0,0,0,.38),0 0 24px rgba(49,92,255,.45)}
+.scroll-top-btn:active{transform:translateY(-1px) scale(.95)}
+.scroll-top-btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.scroll-top-btn svg.progress-ring{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);transform:rotate(-90deg);pointer-events:none}
+.scroll-top-btn svg.progress-ring circle.bg{fill:none;stroke:rgba(255,255,255,.08);stroke-width:2.2}
+.scroll-top-btn svg.progress-ring circle.bar{fill:none;stroke:var(--lime);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:144.5;stroke-dashoffset:144.5;transition:stroke-dashoffset .15s ease-out}
+.scroll-top-btn .arrow-icon{width:18px;height:18px;stroke:#fff;stroke-width:2.4;fill:none;position:relative;z-index:2;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.scroll-top-btn:hover .arrow-icon{transform:translateY(-2px);stroke:var(--lime)}
+@media(max-width:620px){.scroll-top-btn{right:18px;bottom:18px;width:44px;height:44px}}
+</style>
+</head>
+<body>
+<header class="nav" id="nav">
+<a class="brand" href="#top"><svg aria-hidden="true" class="brand-mark" fill="none" viewbox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="aeroBodyGrad" gradientunits="userSpaceOnUse" x1="0" x2="64" y1="0" y2="64">
+<stop offset="0%" stop-color="#2b323d"></stop>
+<stop offset="45%" stop-color="#15181f"></stop>
+<stop offset="100%" stop-color="#0a0c10"></stop>
+</linearGradient>
+<linearGradient id="aeroBevel" gradientunits="userSpaceOnUse" x1="0" x2="0" y1="0" y2="64">
+<stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"></stop>
+<stop offset="15%" stop-color="#ffffff" stop-opacity="0.08"></stop>
+<stop offset="85%" stop-color="#000000" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#000000" stop-opacity="0.8"></stop>
+</linearGradient>
+<linearGradient id="bladeBlue" gradientunits="userSpaceOnUse" x1="12" x2="28" y1="12" y2="24">
+<stop offset="0%" stop-color="#00f5ff"></stop>
+<stop offset="100%" stop-color="#315cff"></stop>
+</linearGradient>
+<linearGradient id="bladeOrange" gradientunits="userSpaceOnUse" x1="52" x2="36" y1="40" y2="52">
+<stop offset="0%" stop-color="#ff8552"></stop>
+<stop offset="100%" stop-color="#ff3b30"></stop>
+</linearGradient>
+<linearGradient id="armMetal" gradientunits="userSpaceOnUse" x1="14" x2="50" y1="14" y2="50">
+<stop offset="0%" stop-color="#5a6677"></stop>
+<stop offset="50%" stop-color="#2d3440"></stop>
+<stop offset="100%" stop-color="#141820"></stop>
+</linearGradient>
+<radialGradient cx="32%" cy="30%" id="lens3d" r="65%">
+<stop offset="0%" stop-color="#67e8f9"></stop>
+<stop offset="28%" stop-color="#315cff"></stop>
+<stop offset="72%" stop-color="#0f172a"></stop>
+<stop offset="100%" stop-color="#030712"></stop>
+</radialGradient>
+<radialGradient cx="30%" cy="25%" id="glassGlare" r="45%">
+<stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"></stop>
+<stop offset="50%" stop-color="#ffffff" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+</radialGradient>
+<filter height="130%" id="aeroShadow" width="130%" x="-10%" y="-10%">
+<fedropshadow dx="0" dy="4" flood-color="#000" flood-opacity="0.5" stddeviation="3"></fedropshadow>
+</filter>
+<filter height="140%" id="neonGlow" width="140%" x="-20%" y="-20%">
+<fegaussianblur result="glow" stddeviation="1.2"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="glow" operator="over"></fecomposite>
+</filter>
+</defs>
+<rect fill="url(#aeroBodyGrad)" filter="url(#aeroShadow)" height="60" rx="18" stroke="rgba(255,255,255,0.14)" stroke-width="1.2" width="60" x="2" y="2"></rect>
+<rect fill="url(#aeroBevel)" height="60" rx="18" width="60" x="2" y="2"></rect>
+<path d="M15 15 L49 49 M49 15 L15 49" stroke="url(#armMetal)" stroke-linecap="round" stroke-width="4.5"></path>
+<path d="M16 16 L48 48 M48 16 L16 48" stroke="#0e1117" stroke-linecap="round" stroke-width="2.2"></path>
+<circle cx="32" cy="32" fill="none" r="19" stroke="rgba(255,255,255,0.08)" stroke-width="1.2"></circle>
+<circle cx="16" cy="16" fill="#1b2029" r="6" stroke="#424c5c" stroke-width="1"></circle>
+<circle cx="16" cy="16" fill="url(#bladeBlue)" r="3.2"></circle>
+<ellipse cx="16" cy="16" fill="url(#bladeBlue)" filter="url(#neonGlow)" opacity="0.9" rx="9" ry="2.8" transform="rotate(-30 16 16)"></ellipse>
+<circle cx="48" cy="16" fill="#1b2029" r="6" stroke="#424c5c" stroke-width="1"></circle>
+<circle cx="48" cy="16" fill="url(#bladeBlue)" r="3.2"></circle>
+<ellipse cx="48" cy="16" fill="url(#bladeBlue)" filter="url(#neonGlow)" opacity="0.9" rx="9" ry="2.8" transform="rotate(30 48 16)"></ellipse>
+<circle cx="16" cy="48" fill="#1b2029" r="6" stroke="#424c5c" stroke-width="1"></circle>
+<circle cx="16" cy="48" fill="url(#bladeOrange)" r="3.2"></circle>
+<ellipse cx="16" cy="48" fill="url(#bladeOrange)" filter="url(#neonGlow)" opacity="0.9" rx="9" ry="2.8" transform="rotate(30 16 48)"></ellipse>
+<circle cx="48" cy="48" fill="#1b2029" r="6" stroke="#424c5c" stroke-width="1"></circle>
+<circle cx="48" cy="48" fill="url(#bladeOrange)" r="3.2"></circle>
+<ellipse cx="48" cy="48" fill="url(#bladeOrange)" filter="url(#neonGlow)" opacity="0.9" rx="9" ry="2.8" transform="rotate(-30 48 48)"></ellipse>
+<ellipse cx="32" cy="32" fill="none" rx="16" ry="6.5" stroke="rgba(255, 104, 72, 0.75)" stroke-dasharray="24 6" stroke-width="1.8" transform="rotate(-22 32 32)"></ellipse>
+<circle cx="43" cy="27" fill="#ff6848" filter="url(#neonGlow)" r="1.6"></circle>
+<circle cx="32" cy="32" fill="url(#lens3d)" filter="url(#aeroShadow)" r="11" stroke="#3b4453" stroke-width="1.5"></circle>
+<circle cx="32" cy="32" fill="none" r="9" stroke="rgba(0, 245, 255, 0.45)" stroke-width="1"></circle>
+<path d="M32 23.5 V26.5 M32 37.5 V40.5 M23.5 32 H26.5 M37.5 32 H40.5" opacity="0.9" stroke="#00f5ff" stroke-linecap="round" stroke-width="1.4"></path>
+<circle cx="32" cy="32" fill="#c7f25b" filter="url(#neonGlow)" r="3.5"></circle>
+<circle cx="32" cy="32" fill="#ffffff" r="1.5"></circle>
+<ellipse cx="29" cy="27" fill="url(#glassGlare)" rx="5.5" ry="2.5" transform="rotate(-25 29 27)"></ellipse>
+</svg>AEROVUE</a>
+<nav class="navlinks" id="navlinks"><a class="active" href="#top">Home</a><a href="#mission">Mission</a><a href="#capture">Capture</a><a href="#flight">Flight Lab</a><a href="#gear">Gear</a><a href="#workflow">Workflow</a><a class="mobile-navcta" href="#contact">Book Flight →</a></nav>
+<div class="nav-right"><a class="navcta desktop-navcta" href="#contact">Book Flight →</a><button aria-label="Open menu" class="menu" id="menu">☰</button></div>
+</header>
+<main id="top">
+<section class="hero wrap">
+<div class="reveal"><span class="eyebrow"><i class="dot"></i> Drone Photography / Video Platform</span><h1><span>Make altitude</span><br/><span class="grad">look cinematic.</span></h1><p class="lead">AEROVUE brings drone planning, aerial capture, quadcopter intelligence and production workflow into one polished visual workspace for photographers, filmmakers and commercial teams.</p><div class="actions"><a class="btn primary" href="#mission">Explore the platform →</a><a class="btn darkbtn" href="#flight">Open Flight Lab</a></div><div class="hero-metrics"><div class="metric"><b>4K</b><span>Aerial output</span></div><div class="metric"><b>182M</b><span>Altitude profile</span></div><div class="metric"><b>18+</b><span>GPS satellites</span></div><div class="metric"><b>24/7</b><span>Mission workspace</span></div></div></div>
+<div class="hero-visual reveal"><div class="hero-image"><img alt="Aerial landscape" src="https://images.pexels.com/photos/442587/pexels-photo-442587.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1800"/></div><div class="orbit"><i></i><i></i><i></i></div></div>
+</section>
+<div class="marquee" aria-label="AEROVUE Features Ticker"><div class="track"><div class="track-group"><span>QUADCOPTERS</span><i class="dot"></i><span>AERIAL CINEMA</span><i class="dot"></i><span>FPV</span><i class="dot"></i><span>LANDSCAPE</span><i class="dot"></i><span>REAL ESTATE</span><i class="dot"></i><span>INSPECTION</span><i class="dot"></i><span>4K VIDEO</span><i class="dot"></i><span>FLIGHT PLANNING</span><i class="dot"></i><span>PHOTOGRAMMETRY</span><i class="dot"></i><span>GPS TELEMETRY</span><i class="dot"></i></div><div class="track-group" aria-hidden="true"><span>QUADCOPTERS</span><i class="dot"></i><span>AERIAL CINEMA</span><i class="dot"></i><span>FPV</span><i class="dot"></i><span>LANDSCAPE</span><i class="dot"></i><span>REAL ESTATE</span><i class="dot"></i><span>INSPECTION</span><i class="dot"></i><span>4K VIDEO</span><i class="dot"></i><span>FLIGHT PLANNING</span><i class="dot"></i><span>PHOTOGRAMMETRY</span><i class="dot"></i><span>GPS TELEMETRY</span><i class="dot"></i></div></div></div>
+<section class="section wrap" id="mission"><div class="section-index">01</div><div class="section-head reveal"><div><div class="kicker">01 / Mission</div><h2>One workspace for the entire aerial story.</h2></div><p>Plan the flight, define the shot and keep delivery connected instead of splitting the production across disconnected tools.</p></div><div class="grid g3"><article class="card reveal"><div class="card-media"><img alt="Drone Route Planning and Telemetry HUD" loading="lazy" src="assets/mission-planning.jpg"/><span class="media-orbit"></span></div><div class="icon">PLAN</div><h3>Mission planning</h3><p>Create repeatable routes, altitude targets, shot lists, location notes and pre-flight tasks.</p><a class="tag" href="#flight">Prepare the flight →</a></article><article class="card reveal"><div class="card-media"><img alt="Aerial capture" loading="lazy" src="https://images.pexels.com/photos/32047271/pexels-photo-32047271.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"/><span class="media-orbit"></span></div><div class="icon">SHOT</div><h3>Cinematic capture</h3><p>Organize camera settings, movement ideas and aerial compositions around the final story.</p><a class="tag" href="#capture">Frame the story →</a></article><article class="card reveal"><div class="card-media"><img alt="Aerial media delivery" loading="lazy" src="https://images.pexels.com/photos/5437361/pexels-photo-5437361.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"/><span class="media-orbit"></span></div><div class="icon">MEDIA</div><h3>Media delivery</h3><p>Keep footage, review status, edits and final deliverables tied to one mission.</p><a class="tag" href="#workflow">Finish the mission →</a></article></div></section>
+<section class="section wrap" id="capture"><div class="section-index">02</div><div class="photo reveal"><img alt="Drone aerial photography" src="https://images.pexels.com/photos/32047271/pexels-photo-32047271.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1800"/><div class="photo-copy"><div class="kicker" style="color:#c7f25b">02 / Aerial capture</div><h3>Perspective becomes the production language.</h3><p>From cinematic landscapes to property visuals, AEROVUE turns quadcopter capability into a repeatable visual workflow.</p><div class="capture-stats"><span><b>01</b><small>Scout</small></span><span><b>02</b><small>Frame</small></span><span><b>03</b><small>Fly</small></span><span><b>04</b><small>Deliver</small></span></div></div></div></section>
+<section class="section wrap"><div class="section-index">03</div><div class="section-head reveal"><div><div class="kicker">03 / Visual library</div><h2>Collect references before the props start spinning.</h2></div><p>Explore aerial environments, compositions and movement ideas to define the visual target.</p></div><div class="gallery"><figure class="reveal"><img alt="Aerial coast" src="https://images.pexels.com/photos/5437361/pexels-photo-5437361.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600"/><figcaption>COAST / CINEMATIC WIDE</figcaption></figure><figure class="reveal"><img alt="Aerial beach" src="https://images.pexels.com/photos/36689166/pexels-photo-36689166.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"/><figcaption>COAST / TURQUOISE</figcaption></figure><figure class="reveal"><img alt="Aerial farmland" src="https://images.pexels.com/photos/34443257/pexels-photo-34443257.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"/><figcaption>LAND / TOPOGRAPHY</figcaption></figure></div></section>
+<section class="section wrap" id="flight"><div class="section-index">04</div><div class="section-head reveal"><div><div class="kicker">04 / Flight Lab · animation 01</div><h2>A flight plan that feels alive.</h2></div><p>Animated radar layers visualize mission awareness, signal points and a moving flight sweep.</p></div><div class="radarbox reveal"><div class="radar-label">MISSION 04 / GPS LOCK / LIVE</div><div class="radar"><div class="sweep"></div><i class="ping p1"></i><i class="ping p2"></i><i class="ping p3"></i></div><div class="radar-center"><strong>182 M</strong><small>ALTITUDE ACTIVE</small></div></div></section>
+<section class="section wrap"><div class="section-index">05</div><div class="section-head reveal"><div><div class="kicker">05 / Use cases</div><h2>Designed around real aerial assignments.</h2></div><p>One system for creators, commercial teams and visual documentation.</p></div><div class="grid g4"><article class="card reveal"><div class="case-visual case-1"><i></i><span></span></div><div class="icon">01</div><h3>Landscape</h3><p>Terrain, coastlines and natural environments at scale.</p></article><article class="card reveal"><div class="case-visual case-2"><i></i><span></span></div><div class="icon">02</div><h3>Real estate</h3><p>Property exteriors, context shots and cinematic flyovers.</p></article><article class="card reveal"><div class="case-visual case-3"><i></i><span></span></div><div class="icon">03</div><h3>Events</h3><p>Establishing shots and controlled movement around venues.</p></article><article class="card reveal"><div class="case-visual case-4"><i></i><span></span></div><div class="icon">04</div><h3>Inspection</h3><p>Repeatable visual documentation for hard-to-reach areas.</p></article></div></section>
+<section class="section wrap" id="gear"><div class="section-index">06</div><div class="section-head reveal"><div><div class="kicker">06 / Quadcopter Lab</div><h2>A machine designed for movement.</h2></div><p>Aerospace-grade carbon-fiber airframe, precision gimbal optics and high-torque propulsion engineered for high-altitude cinematic capture.</p></div><div class="drone-lab reveal"><img alt="Cinematic Quadcopter Drone in High-Tech Lab" loading="lazy" src="assets/drone-lab.jpg"/></div></section>
+<section class="section wrap"><div class="section-index">07</div><div class="section-head reveal"><div><div class="kicker">07 / Hardware comparison</div><h2>Compare the flight profile, not just the spec sheet.</h2></div><p>Practical signals for choosing between a compact creator platform and a larger cinema-oriented aircraft.</p></div><div class="compare reveal"><div><h3>Compact Creator</h3><span class="compare-pill">FAST / LIGHT / MOBILE</span><div class="bar"><label>Portability <span>96%</span></label><em><i style="--w:96%"></i></em></div><div class="bar"><label>Stability <span>84%</span></label><em><i style="--w:84%"></i></em></div><div class="bar"><label>Camera output <span>88%</span></label><em><i style="--w:88%"></i></em></div><div class="bar"><label>Endurance <span>78%</span></label><em><i style="--w:78%"></i></em></div></div><div><h3>Cinema Platform</h3><span class="compare-pill">STABLE / CINEMA / LONG-FORM</span><div class="bar"><label>Portability <span>61%</span></label><em><i style="--w:61%"></i></em></div><div class="bar"><label>Stability <span>98%</span></label><em><i style="--w:98%"></i></em></div><div class="bar"><label>Camera output <span>99%</span></label><em><i style="--w:99%"></i></em></div><div class="bar"><label>Endurance <span>91%</span></label><em><i style="--w:91%"></i></em></div></div></div></section>
+<section class="section wrap"><div class="section-index">08</div><div class="section-head reveal"><div><div class="kicker">08 / Shot catalogue</div><h2>Choose the movement before the location.</h2></div><p>Build a consistent visual language for every production.</p></div><div class="grid g3"><article class="card cards-img reveal"><img alt="Aerial island resort orbit reveal" src="assets/shot-orbit.jpg"/><div class="inner"><span class="tag">ORBIT</span><h3>Slow reveal</h3><p>Rise smoothly from a close frame to a full environmental reveal.</p></div></article><article class="card cards-img reveal"><img alt="Aerial alpine river forward push" src="assets/shot-push.jpg"/><div class="inner"><span class="tag">PUSH</span><h3>Forward flight</h3><p>Move into the scene to create scale, depth and momentum.</p></div></article><article class="card cards-img reveal"><img alt="Aerial coastal bridge linear tracking" src="assets/shot-track.jpg"/><div class="inner"><span class="tag">TRACK</span><h3>Linear tracking</h3><p>Hold a subject or architectural line while the environment opens around it.</p></div></article></div></section>
+<section class="section wrap"><div class="section-index">09</div><div class="section-head reveal"><div><div class="kicker">09 / Flight route · animation 03</div><h2>Map the story as a moving route.</h2></div><p>An animated path turns aerial planning into a visual sequence.</p></div><div class="route reveal"><img alt="Aerial terrain" src="https://images.pexels.com/photos/34443257/pexels-photo-34443257.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1800"/><div class="route-label">MISSION ROUTE / AEROVUE-09</div><svg preserveaspectratio="none" viewbox="0 0 1000 450"><path class="path" d="M70 355 C180 90 310 385 420 190 S650 80 735 260 S875 355 940 95"></path><circle cx="70" cy="355" fill="#c7f25b" r="8"></circle><circle cx="420" cy="190" fill="#ff6848" r="8"></circle><circle cx="735" cy="260" fill="#c7f25b" r="8"></circle><circle cx="940" cy="95" fill="#ff6848" r="8"></circle></svg></div></section>
+<section class="section wrap" id="workflow"><div class="section-index">10</div><div class="section-head reveal"><div><div class="kicker">10 / Production workflow</div><h2>From scout to final export.</h2></div><p>Keep creative decisions and operational tasks in one sequence.</p></div><div class="workflow-visual reveal"><img alt="Cinematic Drone Aerial Production Workflow" loading="lazy" src="assets/workflow-pipeline.jpg"/><div class="workflow-overlay"><span>SCOUT</span><span>PLAN</span><span>CAPTURE</span><span>DELIVER</span></div></div><div class="steps grid g4"><div class="workflow-line"></div><div class="step reveal"><h3>Scout</h3><p>Location, light, weather and operating conditions.</p></div><div class="step reveal"><h3>Plan</h3><p>Route, altitude, movement and shot checklist.</p></div><div class="step reveal"><h3>Capture</h3><p>Fly the mission and monitor the camera feed.</p></div><div class="step reveal"><h3>Deliver</h3><p>Review, edit, approve and publish the final media.</p></div></div></section>
+<section class="section wrap"><div class="section-index">11</div><div class="dark-panel reveal"><div class="kicker" style="color:#c7f25b">11 / Media intelligence</div><h2>Keep the best frame connected to the mission.</h2><p>Organize the story behind every image and clip so teams can move from capture to delivery without losing context.</p><div class="pillrow"><span class="pill">SHOT LIST</span><span class="pill">RAW MEDIA</span><span class="pill">REVIEW STATUS</span><span class="pill">FINAL EXPORT</span></div><div class="media-stack"><div class="media-chip">RAW 04K</div><div class="media-chip">COLOR PASS</div><div class="media-chip">CLIENT REVIEW</div></div></div></section>
+<section class="section wrap"><div class="section-index">12</div><div class="section-head reveal"><div><div class="kicker">12 / Safety &amp; readiness</div><h2>Good aerial work starts before the props spin.</h2></div><p>A repeatable pre-flight routine keeps the creative mission organized.</p></div><div class="grid g3"><article class="card reveal"><div class="icon">AIR</div><h3>Airspace check</h3><p>Confirm the operating area and local requirements before launch.</p><div class="check-row"><span>✓ CHECK</span><span>✓ READY</span><span>✓ LOG</span></div></article><article class="card reveal"><div class="icon">BAT</div><h3>Battery ready</h3><p>Verify charge, spares and expected endurance for the route.</p><div class="check-row"><span>✓ CHECK</span><span>✓ READY</span><span>✓ LOG</span></div></article><article class="card reveal"><div class="icon">CAM</div><h3>Camera ready</h3><p>Check storage, exposure, frame rate and stabilization.</p><div class="check-row"><span>✓ CHECK</span><span>✓ READY</span><span>✓ LOG</span></div></article></div></section>
+<section class="section wrap" id="analytics"><div class="section-index">13</div><div class="section-head reveal"><div><div class="kicker">13 / Aerial analytics</div><h2>A live-looking control room for every mission.</h2></div><p>Real-time telemetry, multi-stream drone feeds and airspace analytics united in a single operational command center.</p></div><div class="control-room reveal"><img alt="Modern Drone Mission Control Room and Aerial Operations Center" loading="lazy" src="assets/drone-control-room.jpg"/><div class="control-room-badge">MISSION CONTROL / TELEMETRY LIVE / OPS ACTIVE</div></div></section>
+<section class="section wrap"><div class="section-index">14</div><div class="section-head reveal"><div><div class="kicker">14 / FAQ</div><h2>Before the next flight.</h2></div><p>Quick answers for teams planning aerial photography and video.</p></div><div class="faq reveal"><details open=""><summary>What is AEROVUE for?</summary><p>A public-facing concept for a dedicated drone quadcopter platform covering planning, aerial capture, hardware comparison and production workflow.</p></details><details><summary>Can it work with different drone types?</summary><p>The experience is designed around workflows rather than one aircraft, allowing compact creator drones, FPV systems and larger cinema platforms to fit the same process.</p></details><details><summary>Can missions be reused?</summary><p>The workflow is structured around repeatable routes, checklists, shot plans and delivery stages so successful missions can become templates.</p></details></div></section>
+<section class="section wrap" id="contact"><div class="section-index">15</div><div class="section-head reveal"><div><div class="kicker">15 / Plan a shoot</div><h2>Tell AEROVUE what you want to capture from the sky.</h2></div><p>Connect with the concept and start a demo mission request.</p></div><div class="contact-grid contact-grid-3"><div class="contact-box reveal"><div class="contact-item"><div><b>Email</b><a href="mailto:hello@aerovue.example">hello@aerovue.example</a></div></div><div class="contact-item"><div><b>Phone</b><a href="tel:+14158903420">+1 (415) 890-3420</a></div></div><div class="contact-item"><div><b>Address</b><span>550 Skyline Boulevard, Suite 800, San Francisco, CA 94105, USA</span></div></div><div class="socials"><a aria-label="Instagram" href="#">◎</a><a aria-label="Facebook" href="#">f</a><a aria-label="X" href="#">𝕏</a><a aria-label="LinkedIn" href="#">in</a></div></div><div class="contact-box contact-form"><h3>Start a demo mission</h3><p>Tell us what you want to capture and the workflow you need.</p><form id="missionForm"><input placeholder="Name" required="required" type="text"/><input placeholder="Work email" required="required" type="email"/><input placeholder="Shoot type" required="required" type="text"/><textarea placeholder="Tell us about the location, shots or production workflow..." required="required" rows="5"></textarea><button class="btn primary" type="submit">Send mission brief →</button></form></div><div class="contact-box map reveal"><div class="map-badge">AEROVUE / GLOBAL HQ · SF</div><iframe loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=-122.425%2C37.770%2C-122.385%2C37.795&amp;layer=mapnik&amp;marker=37.783%2C-122.405" title="AEROVUE Global HQ Map"></iframe></div></div></section>
+</main>
+<footer class="footer"><div class="wrap footergrid"><div class="foot-brand-col"><a class="brand" href="#top"><svg aria-hidden="true" class="brand-mark" fill="none" viewbox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="aeroFootBodyGrad" gradientunits="userSpaceOnUse" x1="0" x2="64" y1="0" y2="64">
+<stop offset="0%" stop-color="#2b323d"></stop>
+<stop offset="45%" stop-color="#15181f"></stop>
+<stop offset="100%" stop-color="#0a0c10"></stop>
+</linearGradient>
+<linearGradient id="aeroFootBevel" gradientunits="userSpaceOnUse" x1="0" x2="0" y1="0" y2="64">
+<stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"></stop>
+<stop offset="15%" stop-color="#ffffff" stop-opacity="0.08"></stop>
+<stop offset="85%" stop-color="#000000" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#000000" stop-opacity="0.8"></stop>
+</linearGradient>
+<linearGradient id="bladeBlueF" gradientunits="userSpaceOnUse" x1="12" x2="28" y1="12" y2="24">
+<stop offset="0%" stop-color="#00f5ff"></stop>
+<stop offset="100%" stop-color="#315cff"></stop>
+</linearGradient>
+<linearGradient id="bladeOrangeF" gradientunits="userSpaceOnUse" x1="52" x2="36" y1="40" y2="52">
+<stop offset="0%" stop-color="#ff8552"></stop>
+<stop offset="100%" stop-color="#ff3b30"></stop>
+</linearGradient>
+<linearGradient id="armMetalF" gradientunits="userSpaceOnUse" x1="14" x2="50" y1="14" y2="50">
+<stop offset="0%" stop-color="#5a6677"></stop>
+<stop offset="50%" stop-color="#2d3440"></stop>
+<stop offset="100%" stop-color="#141820"></stop>
+</linearGradient>
+<radialGradient cx="32%" cy="30%" id="lens3dF" r="65%">
+<stop offset="0%" stop-color="#67e8f9"></stop>
+<stop offset="28%" stop-color="#315cff"></stop>
+<stop offset="72%" stop-color="#0f172a"></stop>
+<stop offset="100%" stop-color="#030712"></stop>
+</radialGradient>
+<radialGradient cx="30%" cy="25%" id="glassGlareF" r="45%">
+<stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"></stop>
+<stop offset="50%" stop-color="#ffffff" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#ffffff" stop-opacity="0.08"></stop>
+</radialGradient>
+</defs>
+<rect fill="url(#aeroFootBodyGrad)" height="60" rx="18" stroke="rgba(255,255,255,0.14)" stroke-width="1.2" width="60" x="2" y="2"></rect>
+<rect fill="url(#aeroFootBevel)" height="60" rx="18" width="60" x="2" y="2"></rect>
+<path d="M15 15 L49 49 M49 15 L15 49" stroke="url(#armMetalF)" stroke-linecap="round" stroke-width="4.5"></path>
+<path d="M16 16 L48 48 M48 16 L16 48" stroke="#0e1117" stroke-linecap="round" stroke-width="2.2"></path>
+<circle cx="32" cy="32" fill="none" r="19" stroke="rgba(255,255,255,0.08)" stroke-width="1.2"></circle>
+<circle cx="16" cy="16" fill="#1b2029" r="6" stroke="#424c5c" stroke-width="1"></circle>
+<circle cx="16" cy="16" fill="url(#bladeBlueF)" r="3.2"></circle>
+<ellipse cx="16" cy="16" fill="url(#bladeBlueF)" opacity="0.9" rx="9" ry="2.8" transform="rotate(-30 16 16)"></ellipse>
+<circle cx="48" cy="16" fill="#1b2029" r="6" stroke="#424c5c" stroke-width="1"></circle>
+<circle cx="48" cy="16" fill="url(#bladeBlueF)" r="3.2"></circle>
+<ellipse cx="48" cy="16" fill="url(#bladeBlueF)" opacity="0.9" rx="9" ry="2.8" transform="rotate(30 48 16)"></ellipse>
+<circle cx="16" cy="48" fill="#1b2029" r="6" stroke="#424c5c" stroke-width="1"></circle>
+<circle cx="16" cy="48" fill="url(#bladeOrangeF)" r="3.2"></circle>
+<ellipse cx="16" cy="48" fill="url(#bladeOrangeF)" opacity="0.9" rx="9" ry="2.8" transform="rotate(30 16 48)"></ellipse>
+<circle cx="48" cy="48" fill="#1b2029" r="6" stroke="#424c5c" stroke-width="1"></circle>
+<circle cx="48" cy="48" fill="url(#bladeOrangeF)" r="3.2"></circle>
+<ellipse cx="48" cy="48" fill="url(#bladeOrangeF)" opacity="0.9" rx="9" ry="2.8" transform="rotate(-30 48 48)"></ellipse>
+<ellipse cx="32" cy="32" fill="none" rx="16" ry="6.5" stroke="rgba(255, 104, 72, 0.75)" stroke-dasharray="24 6" stroke-width="1.8" transform="rotate(-22 32 32)"></ellipse>
+<circle cx="43" cy="27" fill="#ff6848" r="1.6"></circle>
+<circle cx="32" cy="32" fill="url(#lens3dF)" r="11" stroke="#3b4453" stroke-width="1.5"></circle>
+<circle cx="32" cy="32" fill="none" r="9" stroke="rgba(0, 245, 255, 0.45)" stroke-width="1"></circle>
+<path d="M32 23.5 V26.5 M32 37.5 V40.5 M23.5 32 H26.5 M37.5 32 H40.5" opacity="0.9" stroke="#00f5ff" stroke-linecap="round" stroke-width="1.4"></path>
+<circle cx="32" cy="32" fill="#c7f25b" r="3.5"></circle>
+<circle cx="32" cy="32" fill="#ffffff" r="1.5"></circle>
+<ellipse cx="29" cy="27" fill="url(#glassGlareF)" rx="5.5" ry="2.5" transform="rotate(-25 29 27)"></ellipse>
+</svg><span>AEROVUE</span></a><p class="foot-desc">Advanced drone quadcopter photography &amp; video platform engineered for mission planning, aerial capture, and production delivery.</p><div class="foot-status"><span class="pulse-dot"></span><span>SYSTEMS OPERATIONAL · GPS LIVE</span></div></div><div class="foot-col"><h4 class="foot-title">Platform</h4><ul class="foot-nav"><li><a href="#mission">Mission Planning</a></li><li><a href="#capture">Aerial Capture</a></li><li><a href="#flight">Flight Radar Lab</a></li><li><a href="#gear">Quadcopter Lab</a></li></ul></div><div class="foot-col"><h4 class="foot-title">Production</h4><ul class="foot-nav"><li><a href="#workflow">Workflow Pipeline</a></li><li><a href="#analytics">Live Control Room</a></li><li><a href="#contact">Mission Brief</a></li><li><a href="#top">Visual Library</a></li></ul></div><div class="foot-col"><h4 class="foot-title">Connect</h4><ul class="foot-nav foot-contact"><li><a href="mailto:hello@aerovue.example">hello@aerovue.example</a></li><li><a href="tel:+14158903420">+1 (415) 890-3420</a></li><li><span>550 Skyline Blvd, San Francisco, CA, USA</span></li></ul><div class="foot-socials"><a aria-label="Instagram" href="#">◎</a><a aria-label="Facebook" href="#">f</a><a aria-label="X" href="#">𝕏</a><a aria-label="LinkedIn" href="#">in</a></div></div></div><div class="wrap footbottom"><div class="footbottom-left"><span>© 2026 AEROVUE. All rights reserved.</span><div class="foot-legal"><a href="#">Privacy Policy</a><span>·</span><a href="#">Terms of Flight</a><span>·</span><a href="#">Security</a></div></div><div class="footbottom-right"><span>Built for cinematic aerial storytelling</span></div></div></footer>
+<button aria-label="Scroll to top" class="scroll-top-btn" id="scrollTopBtn" title="Scroll to top" type="button">
+<svg aria-hidden="true" class="progress-ring" viewBox="0 0 50 50">
+<circle class="bg" cx="25" cy="25" r="23"></circle>
+<circle class="bar" cx="25" cy="25" id="scrollTopProgress" r="23"></circle>
+</svg>
+<svg aria-hidden="true" class="arrow-icon" viewBox="0 0 24 24">
+<path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+
+<script>
+const nav=document.getElementById('nav'),menu=document.getElementById('menu');
+menu?.addEventListener('click',()=>nav.classList.toggle('open'));
+document.querySelectorAll('.navlinks a, .nav-right a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+
+const navLinks=document.querySelectorAll('.navlinks a');
+const spySections=[
+  {id:'top',el:document.getElementById('top')||document.querySelector('.hero')},
+  {id:'mission',el:document.getElementById('mission')},
+  {id:'capture',el:document.getElementById('capture')},
+  {id:'flight',el:document.getElementById('flight')},
+  {id:'gear',el:document.getElementById('gear')},
+  {id:'workflow',el:document.getElementById('workflow')}
+];
+function updateActiveNav(){
+  const scrollPos=window.scrollY+200;
+  let currentId='top';
+  for(let i=0;i<spySections.length;i++){
+    const s=spySections[i];
+    if(s.el){
+      const top=s.el.getBoundingClientRect().top+window.scrollY;
+      if(scrollPos>=top){
+        currentId=s.id;
+      }
+    }
+  }
+  navLinks.forEach(link=>{
+    const href=link.getAttribute('href');
+    if(href==='#'+currentId){
+      link.classList.add('active');
+    }else{
+      link.classList.remove('active');
+    }
+  });
+}
+window.addEventListener('scroll',updateActiveNav,{passive:true});
+window.addEventListener('resize',updateActiveNav);
+updateActiveNav();
+
+const io=new IntersectionObserver(entries=>entries.forEach(entry=>{
+ if(entry.isIntersecting){entry.target.classList.add('in');io.unobserve(entry.target);}
+}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+document.querySelectorAll('.card,.photo,.drone-lab,.radarbox,.route,.dark-panel,.workflow-visual').forEach(el=>{
+ el.addEventListener('pointermove',e=>{
+   if(window.matchMedia('(max-width:900px)').matches)return;
+   const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+   el.style.setProperty('--mx',`${x*10}px`);el.style.setProperty('--my',`${y*7}px`);
+ });
+ el.addEventListener('pointerleave',()=>{el.style.setProperty('--mx','0px');el.style.setProperty('--my','0px')});
+});
+const progress=document.querySelector('.scroll-progress')||document.createElement('div');
+progress.className='scroll-progress';
+if(!progress.parentNode)document.body.appendChild(progress);
+addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;progress.style.width=(scrollY/Math.max(h,1)*100)+'%'},{passive:true});
+
+// Scroll to top button handling & circular progress
+const scrollTopBtn=document.getElementById('scrollTopBtn');
+const scrollTopProgress=document.getElementById('scrollTopProgress');
+const ringCircumference=2*Math.PI*23;
+
+function updateScrollTop(){
+  const currentY=window.scrollY||document.documentElement.scrollTop;
+  const maxScroll=document.documentElement.scrollHeight-window.innerHeight;
+  if(currentY>320){
+    scrollTopBtn?.classList.add('visible');
+  }else{
+    scrollTopBtn?.classList.remove('visible');
+  }
+  if(scrollTopProgress&&maxScroll>0){
+    const ratio=Math.min(Math.max(currentY/maxScroll,0),1);
+    scrollTopProgress.style.strokeDashoffset=ringCircumference-(ratio*ringCircumference);
+  }
+}
+window.addEventListener('scroll',updateScrollTop,{passive:true});
+scrollTopBtn?.addEventListener('click',()=>{
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+updateScrollTop();
+
+const form=document.getElementById('missionForm');
+form?.addEventListener('submit',e=>{e.preventDefault();const b=form.querySelector('button');if(b){b.textContent='Mission brief sent ✓';b.disabled=true;}});
+
+const marqueeTrack=document.querySelector('.marquee .track');
+if(marqueeTrack){
+  let pos=0;
+  let lastTime=performance.now();
+  const speed=70;
+  function tickMarquee(time){
+    const delta=(time-lastTime)/1000;
+    lastTime=time;
+    if(delta>0&&delta<0.25){
+      pos+=speed*delta;
+      const firstGroup=marqueeTrack.firstElementChild;
+      const groupWidth=firstGroup?firstGroup.offsetWidth:(marqueeTrack.scrollWidth/2);
+      if(groupWidth>0&&pos>=groupWidth){
+        pos=pos%groupWidth;
+      }
+      marqueeTrack.style.transform=`translate3d(-${pos}px,0,0)`;
+    }
+    requestAnimationFrame(tickMarquee);
+  }
+  requestAnimationFrame(tickMarquee);
+}
+</script>
+</body>
+</html>
